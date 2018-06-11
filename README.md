@@ -40,7 +40,7 @@ We have made all needed changes, run `sudo ufw enable` to start the firewall. Fr
 
 
 ## Configure User options
-Here we will create a new user `grade` and give him basic privileges. We will modify log-in settings so that all users **must use SSH key** to connect to the server. Finally, we will disable user logging in as root.  
+Here we will create a new user `grade` and give him basic privileges. We will modify log-in settings so that all users **must use key** instead of password to connect to the server. Finally, we will disable user logging in as root.  
 
 #### Create user - grader
 1.  In the terminal connecting to the remote server, run `sudo adduser grader`. This creates a new user called **grader** and initializes his folder under **/home**.
@@ -50,7 +50,7 @@ Here we will create a new user `grade` and give him basic privileges. We will mo
 5.  In the terminal connecting to the remote server, `cd /home/grader/` to go into the grader's folder.
 6.  `mkdir .ssh` to create a hidden folder which will store your key.
 7.  `touch .ssh/authorized_keys` to create a file **authorized_keys** inside the folder
-8.  `nano .ssh/authorized_keys` will open the file. Paster the content in **id_rsa.pub** here.
+8.  `nano .ssh/authorized_keys` will open the file. Paste the content in **id_rsa.pub** here.
 9.  `chmod 700 .ssh; chmod 644 .ssh/authorized_keys` to restrict the access of your ssh keys.
 10. Now you can log in as **grader** from your local machine using `ssh -i [the path of your id_rsa] grader@18.216.108.90 -p 2200`.
 
