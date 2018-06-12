@@ -1,6 +1,6 @@
 # Introduction
 This is a guideline of how to configure an linux server and host a Flask web application on Amazon Lightsail.
-- IP address of this example is: [18.216.108.90.xip.io](18.216.108.90.xip.io) *Adjust it to your server IP if you want to your own server.*
+- IP address of this example is: http://18.216.108.90.xip.io/ *Adjust it to your server IP if you want to your own server.*
 - SSH port: 2200
 
 # Configuration
