@@ -86,3 +86,68 @@ Next we will install a SQL database--PostGRESQL. The package we use are python.
 6.  `CREATE DATABASE catalog WITH OWNER catalog;` to create a database called **catalog** owned by user **catalog**.
 7.  `\l` to make sure the database is created correctly.
 8.  '\q' and then `exit` to return to user **grader**
+
+
+## Host an Flask App
+Finally, we are going to host a flask app. The example app here is a catalog website. We will also install several packages including: **pip, sqlalchemy, psycopg2**
+1.  `sudo apt-get install git` to install Git
+2.  `cd /var/www` to move the directory where we will place the app
+3.  `sudo mkdir FlaskApp` to create a directory called **FlaskApp**
+4.  `cd FlaskApp` to move into the repo
+5.  `sudo git clone https://github.com/ziz19/item-catelog.git FlaskApp` to clone to app and call it **FlaskApp**
+6.  `cd FlaskApp` to move into the git repo
+7.  `sudo mv project.py __init__.py` to rename the main script
+8.  `sudo nano database_setup.py` will open the python script. Find the line where `engine = create_engine(XXX)`. Change it to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
+9.  `sudo nano __init__.py` will open another script. Change the **engine** code as above. Also, change the location of `"client_secrets.json"` to `"/var/www/FlaskApp/FlaskAPp/client_secrets.json"` (There are **two places**)
+10.  `sudo apt-get install python-pip` to install pip
+11.  `sudo pip install SQLAlchemy` to install sqlalchemy
+12. `sudo pip install psycopg2 binary` to install psycopg2 for using postgresql in python
+13. `sudo pip install flask` to install flask
+14.
+```
+sudo pip install oauth2client  
+sudo pip install requests   
+sudo pip install httplib2
+```  
+to install specific packages for this app.
+15. `sudo nano /etc/apache2/sites-available/FlaskApp.conf` to create a new config file for the app
+16. Copy the following content and save it
+```
+<VirtualHost *:80>
+        ServerName 18.216.108.90
+        ServerAdmin zhuangzinanmaoxiong@gmail.com
+        ServerAlias 18.216.108.90.xip.io
+        WSGIScriptAlias / /var/www/FlaskApp/flaskapp.wsgi
+        <Directory /var/www/FlaskApp/FlaskApp/>
+                Order allow,deny
+                Allow from all
+        </Directory>
+        Alias /static /var/www/FlaskApp/FlaskApp/static
+        <Directory /var/www/FlaskApp/FlaskApp/static/>
+                Order allow,deny
+                Allow from all
+        </Directory>
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        LogLevel warn
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+17. `sudo a2ensite FlaskApp` to enable the app
+18. `sudo nano /var/www/FlaskApp/flaskapp.wsgi` to create a wsgi file
+19. Copy the following content inside
+
+```
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/FlaskApp/")
+
+from FlaskApp import app as application
+application.secret_key = 'super secret key'
+```
+
+
+## Restart Apache
+Now we have completed all configuration.
+`sudo service apache2 restart` to restart your server.
