@@ -1,7 +1,11 @@
 # Introduction
 This is a guideline of how to configure an linux server and host a Flask web application on Amazon Lightsail.
-- IP address of this example is: http://18.216.108.90.xip.io/ *Adjust it to your server IP if you want to your own server.*
-- SSH port: 2200
+- IP address of this example is: 18.216.108.90 *Adjust it to your server IP if you want to your own server.*
+- URL: http://18.216.108.90.xip.io/
+- SSH port: 2200, HTTP: 80, NTP: 123
+- We will use service: **Apache HTTP server, PostGRESQL database and Flask framework**
+- We will also install several python packages: **apache2, libapache2-mod-wsgi, python-dev, git, python-pip, SQLALchemy, psycopg2, flask, oauth2client, requests, httplib2m**
+
 
 # Configuration
 After you log into the remote server using SSH, you can configure the server as follows.
@@ -9,6 +13,7 @@ After you log into the remote server using SSH, you can configure the server as 
 ##  Update installed packages
  1. In the terminal connecting to the remote server, run `sudo apt-get update`. This will update the latest package list.
  2. Then run `sudo apt-get upgrade` to upgrade installed packages.
+ 3. `sudo apt-get dist-upgrade` to update the packages and install dependencies if needed.
 
 
 ##  Configure Connection options
@@ -89,7 +94,7 @@ Next we will install a SQL database--PostGRESQL. The package we use are python.
 
 
 ## Host an Flask App
-Finally, we are going to host a flask app. The example app here is a catalog website. We will also install several packages including: **pip, sqlalchemy, psycopg2**
+Finally, we are going to host a flask app. The example app here is a catalog website.
 1.  `sudo apt-get install git` to install Git
 2.  `cd /var/www` to move the directory where we will place the app
 3.  `sudo mkdir FlaskApp` to create a directory called **FlaskApp**
@@ -151,3 +156,8 @@ application.secret_key = 'super secret key'
 ## Restart Apache
 Now we have completed all configuration.
 `sudo service apache2 restart` to restart your server.
+
+
+# Reference
+https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+https://gist.github.com/trey/3008281
